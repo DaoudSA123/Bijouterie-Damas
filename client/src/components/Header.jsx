@@ -32,28 +32,28 @@ function Header() {
           </div>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-2">
+          <div className="hidden md:flex space-x-3">
             <button 
               onClick={() => scrollToSection('accueil')}
-              className="btn-secondary-enhanced text-xs px-2 py-1"
+              className="btn-nav-primary"
             >
               Accueil
             </button>
             <button 
               onClick={() => scrollToSection('apropos')}
-              className="btn-secondary-enhanced text-xs px-2 py-1"
+              className="btn-nav-primary"
             >
               À Propos
             </button>
             <button 
               onClick={() => scrollToSection('services')}
-              className="btn-secondary-enhanced text-xs px-2 py-1"
+              className="btn-nav-primary"
             >
               Services
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
-              className="btn-secondary-enhanced text-xs px-2 py-1"
+              className="btn-nav-primary"
             >
               Contact
             </button>
@@ -76,25 +76,25 @@ function Header() {
             <div className="px-4 py-4 space-y-3">
               <button 
                 onClick={() => scrollToSection('accueil')}
-                className="btn-secondary-enhanced w-full text-sm px-4 py-3"
+                className="btn-nav-secondary w-full"
               >
                 Accueil
               </button>
               <button 
                 onClick={() => scrollToSection('apropos')}
-                className="btn-secondary-enhanced w-full text-sm px-4 py-3"
+                className="btn-nav-secondary w-full"
               >
                 À Propos
               </button>
               <button 
                 onClick={() => scrollToSection('services')}
-                className="btn-secondary-enhanced w-full text-sm px-4 py-3"
+                className="btn-nav-secondary w-full"
               >
                 Services
               </button>
               <button 
                 onClick={() => scrollToSection('contact')}
-                className="btn-secondary-enhanced w-full text-sm px-4 py-3"
+                className="btn-nav-secondary w-full"
               >
                 Contact
               </button>

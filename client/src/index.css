@@ -291,6 +291,16 @@ h1, h2, h3, h4, h5, h6 {
   .sm\:space-y-8 > * + * { margin-top: 2rem; }
 }
 
+/* Mobile-specific button adjustments */
+@media (max-width: 767px) {
+  .btn-nav-primary,
+  .btn-nav-secondary {
+    font-size: 0.8rem;
+    padding: 0.6rem 1.2rem;
+    min-width: 90px;
+  }
+}
+
 @media (min-width: 768px) {
   .md\:flex { display: flex; }
   .md\:hidden { display: none; }
@@ -405,6 +415,47 @@ header img {
   border-color: var(--gold-primary);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px var(--gold-primary);
+}
+
+/* Clean Text-Only Header Navigation Buttons */
+.btn-nav-primary {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: none;
+  letter-spacing: 0.025em;
+  min-width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-nav-primary:hover {
+  color: #f1f5f9;
+  transform: translateY(-1px);
+}
+
+.btn-nav-secondary {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: none;
+  letter-spacing: 0.025em;
+  min-width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-nav-secondary:hover {
+  color: #f1f5f9;
+  transform: translateY(-1px);
 }
 
 .btn-secondary-enhanced {
