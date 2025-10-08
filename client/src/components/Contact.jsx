@@ -223,6 +223,7 @@ const Contact = () => {
                     required
                     rows={6}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-transparent backdrop-blur-sm resize-none transition-all duration-200"
+                    style={{ fontFamily: 'Inter, sans-serif' }}
                     placeholder="Décrivez votre projet..."
                   ></textarea>
                 </div>
