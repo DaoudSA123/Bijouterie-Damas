@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
-function About() {
+const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const titleRef = useScrollAnimation(0.1);
   const leftContentRef = useScrollAnimation(0.1);
@@ -129,6 +129,6 @@ function About() {
       </div>
     </section>
   );
-}
+};
 
 export default About;

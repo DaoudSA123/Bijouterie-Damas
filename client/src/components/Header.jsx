@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Header() {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -104,6 +104,6 @@ function Header() {
       </nav>
     </header>
   );
-}
+};
 
 export default Header;

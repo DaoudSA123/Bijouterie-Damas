@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
-function Contact() {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -82,7 +82,7 @@ function Contact() {
             Contactez-Nous
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Prêt à créer votre bijou unique ? Contactez-nous pour une consultation gratuite
+            Prêt à donner vie à votre bijou unique ? Communiquez avec nous dès aujourd'hui pour une consultation gratuite.
           </p>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-8"></div>
         </div>
@@ -242,7 +242,8 @@ function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-primary-enhanced w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-luxury-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Envoyer le message de contact"
                     >
                       {isSubmitting ? 'Envoi en cours...' : 'Envoyer le Message'}
                     </button>
@@ -253,6 +254,6 @@ function Contact() {
       </div>
     </section>
   );
-}
+};
 
 export default Contact;

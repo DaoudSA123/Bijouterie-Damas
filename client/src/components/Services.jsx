@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
-function Services() {
+const Services = () => {
   const [isVisible, setIsVisible] = useState(false);
   const titleRef = useScrollAnimation(0.1);
   const processRef = useScrollAnimation(0.1);
@@ -32,19 +32,19 @@ function Services() {
     {
       id: 1,
       title: "Bagues de Mariage et de Fiançailles",
-      description: "Je commence toujours n'importe quel projet, même mes bagues de mariage et de fiançailles, en m'inspirant de designs classiques, même si la pièce se veut moderne ou abstraite. Ces techniques garantissent que votre pièce unique durera des années. Pour faire une demande personnalisée pour vos bagues de mariage et de fiançailles uniques et faites à la main, contactez-nous dès aujourd'hui.",
+      description: "Je débute toujours chaque création, y compris les bagues de mariage et de fiançailles, en puisant mon inspiration dans les designs classiques, même lorsque la pièce adopte une touche moderne ou abstraite. Cette approche assure à votre bijou une élégance intemporelle et une durabilité exceptionnelle. Pour une création personnalisée et entièrement faite à la main, contactez-nous dès aujourd'hui.",
       image: "/ring01.jpg"
     },
     {
       id: 2,
       title: "Colliers en Or",
-      description: "Ce collier en or a un design merveilleux et intemporel qui évoque la tranquillité et l'excellence. Avec sa grâce et ses lignes épurées, il traversera les âges. Appelez-moi pour le voir dans mon magasin ou en savoir plus sur l'article. Vous recherchez vos propres colliers en or entièrement fabriqués à la main et originaux ? Appelez pour réserver une consultation aujourd'hui.",
+      description: "Ce collier en or présente un design élégant et intemporel, symbolisant la tranquillité et le raffinement. Grâce à ses lignes épurées et à sa finesse, il conservera tout son éclat au fil du temps. Contactez-moi pour le découvrir en boutique ou pour obtenir plus d'informations. Vous souhaitez créer votre propre collier en or, entièrement fait à la main et unique ? Réservez dès aujourd'hui votre consultation personnalisée.",
       image: "/collier.jpg"
     },
     {
       id: 3,
       title: "Bijoux Conçus sur Mesure",
-      description: "Transformez vos bijoux conçus sur mesure en quelque chose de beau et d'unique. En fait, avec le bon créateur de bijoux à vos côtés, vous pourriez avoir les bijoux sur mesure époustouflants et astucieusement conçus de vos rêves. Faites une demande dès aujourd'hui et renseignez-vous sur d'autres produits sur mesure disponibles pour un achat immédiat.",
+      description: "Transformez vos idées en bijoux sur mesure d'une beauté et d'une originalité incomparables. Avec le bon créateur à vos côtés, vos rêves peuvent devenir des pièces uniques, élégantes et finement travaillées. Faites une demande dès aujourd'hui et découvrez nos autres créations personnalisées disponibles à l'achat.",
       image: "/ring02.jpg"
     }
   ];
@@ -87,7 +87,8 @@ function Services() {
                       </p>
                       <button
                         onClick={scrollToContact}
-                        className="btn-primary-enhanced"
+                        className="btn-luxury-primary"
+                        aria-label="Demander une consultation personnalisée"
                       >
                         Demander une Consultation
                       </button>
@@ -157,6 +158,6 @@ function Services() {
       </div>
     </section>
   );
-}
+};
 
 export default Services;
