@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
-function About() {
+const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const titleRef = useScrollAnimation(0.1);
   const leftContentRef = useScrollAnimation(0.1);
@@ -48,13 +48,13 @@ function About() {
               </h3>
               <div className="space-y-6 text-gray-300 leading-relaxed">
                 <p>
-                  La Bijouterie DAMAS est une entreprise située à Gatineau et née de ma passion pour les objets uniques et faits à la main. Depuis les années 1990, je m'intéresse au travail avec des matériaux de toutes sortes.
+                  Fondée à Gatineau, la Bijouterie DAMAS est née d'une véritable passion pour la création de pièces uniques et artisanales. Depuis les années 1990, nous travaillons avec soin et savoir-faire des matériaux de toutes sortes pour concevoir des bijoux alliant élégance, qualité et authenticité.
                 </p>
                 <p>
-                  Cela a commencé comme un passe-temps qui s'est transformé en passion et en études professionnelles complètes, puis s'est transformé en une carrière d'artisanat et de création d'articles personnalisés pour les clients.
+                  Ce qui a commencé comme un simple passe-temps s'est transformé, au fil des années, en une véritable vocation et en une carrière dédiée à l'art de la bijouterie. Chaque création reflète notre engagement à offrir des pièces personnalisées qui racontent une histoire et mettent en valeur la beauté de ceux qui les portent.
                 </p>
                 <p>
-                  Contactez-nous pour en savoir plus sur mon processus et voir ce que je peux faire pour vous.
+                  Contactez-nous dès aujourd'hui pour découvrir notre savoir-faire et discuter de la création de votre bijou sur mesure.
                 </p>
               </div>
             </div>
@@ -129,6 +129,6 @@ function About() {
       </div>
     </section>
   );
-}
+};
 
 export default About;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
-function Hero() {
+const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const titleRef = useScrollAnimation(0.2);
   const subtitleRef = useScrollAnimation(0.2);
@@ -61,16 +61,18 @@ function Hero() {
             </div>
 
             <div ref={buttonsRef} className="fade-in-on-scroll delay-600">
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
                 <button
                   onClick={scrollToContact}
-                  className="btn-primary-enhanced"
+                  className="btn-luxury-primary"
+                  aria-label="Réserver une consultation gratuite"
                 >
                   Consultation Gratuite
                 </button>
                 <button
                   onClick={scrollToServices}
-                  className="btn-secondary-enhanced"
+                  className="btn-luxury-secondary"
+                  aria-label="Découvrir nos services de bijouterie"
                 >
                   Nos Services
                 </button>
@@ -90,6 +92,6 @@ function Hero() {
       </div>
     </section>
   );
-}
+};
 
 export default Hero;

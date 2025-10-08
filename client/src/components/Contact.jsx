@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
-function Contact() {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -82,7 +82,7 @@ function Contact() {
             Contactez-Nous
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Prêt à créer votre bijou unique ? Contactez-nous pour une consultation gratuite
+            Prêt à donner vie à votre bijou unique ? Communiquez avec nous dès aujourd'hui pour une consultation gratuite.
           </p>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-8"></div>
         </div>
@@ -145,7 +145,7 @@ function Contact() {
                 <h4 className="text-xl font-medium text-white mb-6">Heures d'Ouverture</h4>
                 <div className="space-y-3 text-gray-300">
                   <div className="flex justify-between">
-                    <span className="font-medium">Lundi - Vendredi</span>
+                    <span className="font-medium">Lundi - Samedi</span>
                     <span>10h30 - 17h00</span>
                   </div>
                   <div className="flex justify-between">
@@ -223,6 +223,7 @@ function Contact() {
                     required
                     rows={6}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-white/30 focus:border-transparent backdrop-blur-sm resize-none transition-all duration-200"
+                    style={{ fontFamily: 'Inter, sans-serif' }}
                     placeholder="Décrivez votre projet..."
                   ></textarea>
                 </div>
@@ -242,7 +243,8 @@ function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-primary-enhanced w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-luxury-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Envoyer le message de contact"
                     >
                       {isSubmitting ? 'Envoi en cours...' : 'Envoyer le Message'}
                     </button>
@@ -253,6 +255,6 @@ function Contact() {
       </div>
     </section>
   );
-}
+};
 
 export default Contact;
