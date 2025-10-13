@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -73,7 +75,7 @@ app.post('/api/contact', async (req, res) => {
     }
 
     // Create transporter (you'll need to configure this with your email service)
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: 'gmail', // or your preferred email service
       auth: {
         user: process.env.EMAIL_USER,
@@ -110,6 +112,42 @@ app.post('/api/contact', async (req, res) => {
       success: false, 
       message: 'Sorry, there was an error sending your message. Please try again.' 
     });
+  }
+});
+
+// Gallery endpoint: lists images grouped by category folders located in client/public
+app.get('/api/gallery', async (req, res) => {
+  try {
+    const categories = ['rings', 'bracelets', 'pendants', 'earrings'];
+    const publicDir = path.join(__dirname, 'client', 'public');
+
+    const readCategory = (category) => {
+      const categoryDir = path.join(publicDir, category);
+      try {
+        const files = fs.readdirSync(categoryDir, { withFileTypes: true });
+        const imageFiles = files
+          .filter(
+            (entry) =>
+              entry.isFile() &&
+              /\.(png|jpe?g|webp|gif|avifs?)$/i.test(entry.name)
+          )
+          .map((entry) => `/${category}/${entry.name}`);
+        return imageFiles;
+      } catch (err) {
+        // If category folder missing, return empty list
+        return [];
+      }
+    };
+
+    const data = categories.reduce((acc, category) => {
+      acc[category] = readCategory(category);
+      return acc;
+    }, {});
+
+    res.json({ success: true, data });
+  } catch (error) {
+    console.error('Error building gallery list:', error);
+    res.status(500).json({ success: false, message: 'Failed to list gallery images' });
   }
 });
 

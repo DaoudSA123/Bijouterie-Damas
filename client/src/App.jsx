@@ -5,6 +5,7 @@ import About from './components/About.jsx';
 import Services from './components/Services.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
+import GalleryTabs from './components/GalleryTabs.jsx';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Hero />
       <About />
       <Services />
+      <GalleryTabs />
       <Contact />
       <Footer />
     </div>
