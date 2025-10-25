@@ -27,9 +27,23 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="min-h-screen flex items-center justify-center relative overflow-hidden section-white">
+    <section 
+      id="accueil" 
+      className="min-h-screen flex items-center justify-center relative overflow-hidden section-white"
+      style={{ 
+        backgroundImage: 'url(/background/backgroundHome.jpg)', 
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
+        backgroundRepeat: 'no-repeat',
+        imageRendering: 'high-quality',
+        WebkitImageRendering: 'high-quality'
+      }}
+    >
+      {/* Background Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40 z-10"></div>
+
       {/* Enhanced Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-5 z-20">
         <div className="absolute top-1/4 left-1/4 w-80 h-80 border border-white/20 rounded-full animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-60 h-60 border border-white/15 rounded-full animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-white/10 rounded-full animate-pulse delay-2000"></div>
@@ -37,7 +51,7 @@ const Hero = () => {
         <div className="absolute bottom-1/3 left-1/3 w-24 h-24 border border-white/6 rounded-full animate-pulse delay-1500"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30">
         <div className={`transition-all duration-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
           <div className="bg-gold-light/20 backdrop-blur-sm border border-gold/30 rounded-3xl p-8 sm:p-12 lg:p-16 max-w-5xl mx-auto shadow-2xl">
             <div ref={titleRef} className="slide-in-top-on-scroll">
@@ -83,7 +97,7 @@ const Hero = () => {
       </div>
 
       {/* Enhanced Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-40">
         <div className="animate-bounce">
           <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white/40 rounded-full mt-2 animate-pulse"></div>

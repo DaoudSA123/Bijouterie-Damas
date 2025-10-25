@@ -30,6 +30,12 @@ const Services = () => {
 
   const services = [
     {
+      id: 3,
+      title: "Bijoux Conçus sur Mesure",
+      description: "Transformez vos idées en bijoux sur mesure d'une beauté et d'une originalité incomparables. Avec un artisan joaillier d’exception à vos côtés, vos rêves prennent vie sous forme de pièces uniques, élégantes et finement travaillées. Faites votre demande dès aujourd'hui et découvrez nos autres créations personnalisées disponibles à l’achat.",
+      image: "/hand.jpg"
+    },
+    {
       id: 1,
       title: "Bagues de Mariage et de Fiançailles",
       description: "Je débute toujours chaque création, y compris les bagues de mariage et de fiançailles, en puisant mon inspiration dans les designs classiques, même lorsque la pièce adopte une touche moderne ou abstraite. Cette approche assure à votre bijou une élégance intemporelle et une durabilité exceptionnelle. Pour une création personnalisée et entièrement faite à la main, contactez-nous dès aujourd'hui.",
@@ -40,12 +46,6 @@ const Services = () => {
       title: "Colliers en Or",
       description: "Ce collier en or présente un design élégant et intemporel, symbolisant la tranquillité et le raffinement. Grâce à ses lignes épurées et à sa finesse, il conservera tout son éclat au fil du temps. Contactez-moi pour le découvrir en boutique ou pour obtenir plus d'informations. Vous souhaitez créer votre propre collier en or, entièrement fait à la main et unique ? Réservez dès aujourd'hui votre consultation personnalisée.",
       image: "/necklace.jpg"
-    },
-    {
-      id: 3,
-      title: "Bijoux Conçus sur Mesure",
-      description: "Transformez vos idées en bijoux sur mesure d'une beauté et d'une originalité incomparables. Avec le bon créateur à vos côtés, vos rêves peuvent devenir des pièces uniques, élégantes et finement travaillées. Faites une demande dès aujourd'hui et découvrez nos autres créations personnalisées disponibles à l'achat.",
-      image: "/hand.jpg"
     }
   ];
 

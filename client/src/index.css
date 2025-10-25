@@ -397,6 +397,28 @@ img {
   height: auto;
 }
 
+/* Header oval shape styling */
+header {
+  border-radius: 0 0 60px 60px;
+  margin: 0 30px;
+  width: calc(100% - 60px);
+  padding: 0.5rem 0;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 640px) {
+  header {
+    border-radius: 0 0 40px 40px;
+    margin: 0 15px;
+    width: calc(100% - 30px);
+  }
+}
+
 /* Header logo specific styles to prevent size fluctuations */
 header img {
   width: 5rem !important;
@@ -532,45 +554,55 @@ header img {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px var(--gold-primary);
 }
 
+/* Premium Serif Font for Header */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cinzel:wght@400;500;600;700&display=swap');
+
 /* Clean Text-Only Header Navigation Buttons */
 .btn-nav-primary {
   background: transparent;
   border: none;
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 1.1rem;
   padding: 1rem 2rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: none;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.05em;
   min-width: 120px;
   text-align: center;
   cursor: pointer;
+  color: #000000;
 }
 
 .btn-nav-primary:hover {
-  color: #f1f5f9;
+  color: #333333;
   transform: translateY(-1px);
 }
 
 .btn-nav-secondary {
   background: transparent;
   border: none;
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 1.1rem;
   padding: 1rem 2rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: none;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.05em;
   min-width: 120px;
   text-align: center;
   cursor: pointer;
+  color: #000000;
 }
 
 .btn-nav-secondary:hover {
-  color: #f1f5f9;
+  color: #333333;
   transform: translateY(-1px);
+}
+
+/* Mobile menu button icon styling */
+.btn-nav-primary svg {
+  stroke: #000000;
 }
 
 .btn-secondary-enhanced {

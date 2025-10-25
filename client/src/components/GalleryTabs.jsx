@@ -12,6 +12,7 @@ const GalleryTabs = () => {
   const [imagesByCategory, setImagesByCategory] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -39,6 +40,47 @@ const GalleryTabs = () => {
 
   const currentImages = imagesByCategory[activeTab] || [];
   const activeIndex = TABS.findIndex(t => t.key === activeTab);
+
+  const handleImageClick = (src) => {
+    console.log('Image clicked:', src);
+    setSelectedImage(src);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
+  const getCurrentImageIndex = () => {
+    return currentImages.findIndex(img => img === selectedImage);
+  };
+
+  const goToPreviousImage = () => {
+    const currentIndex = getCurrentImageIndex();
+    if (currentIndex > 0) {
+      setSelectedImage(currentImages[currentIndex - 1]);
+    } else {
+      setSelectedImage(currentImages[currentImages.length - 1]); // Loop to last image
+    }
+  };
+
+  const goToNextImage = () => {
+    const currentIndex = getCurrentImageIndex();
+    if (currentIndex < currentImages.length - 1) {
+      setSelectedImage(currentImages[currentIndex + 1]);
+    } else {
+      setSelectedImage(currentImages[0]); // Loop to first image
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    } else if (e.key === 'ArrowLeft') {
+      goToPreviousImage();
+    } else if (e.key === 'ArrowRight') {
+      goToNextImage();
+    }
+  };
 
   return (
     <section id="galerie" className="py-20 section-white">
@@ -87,8 +129,31 @@ const GalleryTabs = () => {
 
         {!isLoading && !error && currentImages.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+            {/* Debug info */}
+            {selectedImage && (
+              <div className="col-span-full text-center text-sm text-gray-600 mb-4">
+                Selected: {selectedImage}
+              </div>
+            )}
             {currentImages.map((src) => (
-              <div key={src} className="group relative overflow-hidden rounded-xl bg-white border border-black/10 shadow-sm">
+              <div 
+                key={src} 
+                className="group relative overflow-hidden rounded-xl bg-white border border-black/10 shadow-sm cursor-pointer"
+                style={{
+                  transform: 'translateY(0)',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                }}
+                onClick={() => handleImageClick(src)}
+              >
                 <div className="aspect-[4/5] w-full">
                   <img
                     src={src}
@@ -108,6 +173,151 @@ const GalleryTabs = () => {
           </div>
         )}
       </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onClick={closeModal}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+        >
+          <div style={{
+            position: 'relative',
+            maxWidth: '40%',
+            maxHeight: '50vh',
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '0',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}
+          onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeModal}
+              style={{
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                background: 'rgba(0, 0, 0, 0.6)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '30px',
+                height: '30px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                lineHeight: '1',
+                zIndex: 10
+              }}
+            >
+              ×
+            </button>
+
+            {/* Left arrow */}
+            {currentImages.length > 1 && (
+              <button
+                onClick={goToPreviousImage}
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'rgba(0, 0, 0, 0.6)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10
+                }}
+              >
+                ‹
+              </button>
+            )}
+
+            {/* Right arrow */}
+            {currentImages.length > 1 && (
+              <button
+                onClick={goToNextImage}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'rgba(0, 0, 0, 0.6)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10
+                }}
+              >
+                ›
+              </button>
+            )}
+
+            {/* Image counter */}
+            {currentImages.length > 1 && (
+              <div style={{
+                position: 'absolute',
+                bottom: '10px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(0, 0, 0, 0.6)',
+                color: 'white',
+                padding: '5px 10px',
+                borderRadius: '15px',
+                fontSize: '14px',
+                zIndex: 10
+              }}>
+                {getCurrentImageIndex() + 1} / {currentImages.length}
+              </div>
+            )}
+
+            <img
+              src={selectedImage}
+              alt="Bijou en grand format"
+              style={{
+                display: 'block',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                width: 'auto',
+                height: 'auto',
+                objectFit: 'contain',
+                imageRendering: 'auto'
+              }}
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 };
