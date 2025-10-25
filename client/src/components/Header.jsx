@@ -3,11 +3,31 @@ import React, { useState, useEffect } from 'react';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollOpacity, setScrollOpacity] = useState(1);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 20);
+      
+      // Calculate opacity based on scroll position
+      // Start fading earlier and faster to avoid content overlap
+      const fadeStart = 50;
+      const fadeEnd = 150;
+      
+      if (scrollY <= fadeStart) {
+        setScrollOpacity(1);
+      } else if (scrollY >= fadeEnd) {
+        setScrollOpacity(0);
+      } else {
+        // Smooth cubic-bezier fade for more natural transition
+        const fadeProgress = (scrollY - fadeStart) / (fadeEnd - fadeStart);
+        // Use ease-out curve for smoother fade
+        const easedProgress = 1 - Math.pow(1 - fadeProgress, 3);
+        setScrollOpacity(1 - easedProgress);
+      }
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -21,9 +41,12 @@ const Header = () => {
   };
 
   return (
-    <header className={`w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/90 backdrop-blur-md border-b border-black/10' : 'bg-transparent'
-    }`}>
+    <header 
+      className={`${
+        isScrolled ? 'bg-white/20 backdrop-blur-lg border-b border-white/20' : 'bg-transparent'
+      }`}
+      style={{ opacity: scrollOpacity }}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-10 px-2">
           <div className="flex items-center space-x-2">
@@ -32,39 +55,34 @@ const Header = () => {
           </div>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-3 text-black">
+          <div className="hidden md:flex space-x-3">
             <button 
               onClick={() => scrollToSection('accueil')}
               className="btn-nav-primary"
-              style={{ color: '#000' }}
             >
               Accueil
             </button>
             <button 
               onClick={() => scrollToSection('apropos')}
               className="btn-nav-primary"
-              style={{ color: '#000' }}
             >
               À Propos
             </button>
             <button 
               onClick={() => scrollToSection('services')}
               className="btn-nav-primary"
-              style={{ color: '#000' }}
             >
               Services
             </button>
             <button 
               onClick={() => scrollToSection('galerie')}
               className="btn-nav-primary"
-              style={{ color: '#000' }}
             >
               Galerie
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
               className="btn-nav-primary"
-              style={{ color: '#000' }}
             >
               Contact
             </button>
@@ -72,7 +90,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-black/90 hover:text-black transition-colors duration-200"
+            className="md:hidden btn-nav-primary"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,40 +101,35 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-black/10">
+          <div className="md:hidden bg-white/30 backdrop-blur-lg border-t border-white/20">
             <div className="px-4 py-4 space-y-3">
               <button 
                 onClick={() => scrollToSection('accueil')}
                 className="btn-nav-secondary w-full"
-                style={{ color: '#000' }}
               >
                 Accueil
               </button>
               <button 
                 onClick={() => scrollToSection('galerie')}
                 className="btn-nav-secondary w-full"
-                style={{ color: '#000' }}
               >
                 Galerie
               </button>
               <button 
                 onClick={() => scrollToSection('apropos')}
                 className="btn-nav-secondary w-full"
-                style={{ color: '#000' }}
               >
                 À Propos
               </button>
               <button 
                 onClick={() => scrollToSection('services')}
                 className="btn-nav-secondary w-full"
-                style={{ color: '#000' }}
               >
                 Services
               </button>
               <button 
                 onClick={() => scrollToSection('contact')}
                 className="btn-nav-secondary w-full"
-                style={{ color: '#000' }}
               >
                 Contact
               </button>
