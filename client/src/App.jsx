@@ -12,9 +12,9 @@ const App = () => {
     <div className="App min-h-screen">
       <Header />
       <Hero />
+      <GalleryTabs />
       <About />
       <Services />
-      <GalleryTabs />
       <Contact />
       <Footer />
     </div>

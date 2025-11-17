@@ -13,6 +13,7 @@ const GalleryTabs = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -40,6 +41,12 @@ const GalleryTabs = () => {
 
   const currentImages = imagesByCategory[activeTab] || [];
   const activeIndex = TABS.findIndex(t => t.key === activeTab);
+  const displayedImages = showAll ? currentImages : currentImages.slice(0, 4);
+  
+  // Reset showAll when tab changes
+  useEffect(() => {
+    setShowAll(false);
+  }, [activeTab]);
 
   const handleImageClick = (src) => {
     console.log('Image clicked:', src);
@@ -128,14 +135,9 @@ const GalleryTabs = () => {
         )}
 
         {!isLoading && !error && currentImages.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-            {/* Debug info */}
-            {selectedImage && (
-              <div className="col-span-full text-center text-sm text-gray-600 mb-4">
-                Selected: {selectedImage}
-              </div>
-            )}
-            {currentImages.map((src) => (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+              {displayedImages.map((src) => (
               <div 
                 key={src} 
                 className="group relative overflow-hidden rounded-xl bg-white border border-black/10 shadow-sm cursor-pointer"
@@ -162,15 +164,21 @@ const GalleryTabs = () => {
                     loading="lazy"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-2 left-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="text-[11px] sm:text-xs text-white/90 bg-black/40 backdrop-blur-xs px-2 py-1 rounded-md inline-block">
-                    {src.split('/').slice(-2).join(' / ')}
-                  </div>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            {!showAll && currentImages.length > 4 && (
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={() => setShowAll(true)}
+                  className="btn-luxury-primary px-8 py-3 text-sm tracking-[0.1em] uppercase"
+                >
+                  Voir toute la collection
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
