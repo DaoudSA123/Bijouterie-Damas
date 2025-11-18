@@ -29,7 +29,7 @@ const Hero = () => {
   return (
     <section 
       id="accueil" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden section-white"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden section-white w-full"
       style={{ 
         backgroundImage: 'url(/background/backgroundHome.jpg)', 
         backgroundSize: 'cover', 
@@ -51,11 +51,11 @@ const Hero = () => {
         <div className="absolute bottom-1/3 left-1/3 w-24 h-24 border border-white/6 rounded-full animate-pulse delay-1500"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30 w-full">
         <div className={`transition-all duration-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <div className="bg-gold-light/20 backdrop-blur-sm border border-gold/30 rounded-3xl p-8 sm:p-12 lg:p-16 max-w-5xl mx-auto shadow-2xl">
+          <div className="bg-gold-light/20 backdrop-blur-sm border border-gold/30 rounded-3xl p-4 sm:p-8 md:p-12 lg:p-16 max-w-5xl mx-auto shadow-2xl w-full box-border">
             <div ref={titleRef} className="slide-in-top-on-scroll">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-black mb-6 leading-tight tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-black mb-4 sm:mb-6 leading-tight tracking-tight break-words">
                 Bijouterie DAMAS
               </h1>
             </div>
@@ -65,27 +65,27 @@ const Hero = () => {
             </div>
             
             <div ref={descriptionRef} className="fade-in-on-scroll delay-400">
-              <p className="text-lg sm:text-xl lg:text-2xl text-gold-dark mb-8 leading-relaxed font-light max-w-3xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gold-dark mb-6 sm:mb-8 leading-relaxed font-light max-w-3xl mx-auto break-words px-2 sm:px-0">
                 Création de bijoux sur mesure et objets uniques faits à la main
               </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-12 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto break-words px-2 sm:px-0">
                 Située à Gatineau, notre entreprise transforme votre vision en bijoux exceptionnels
                 depuis les années 1990. Chaque pièce raconte une histoire unique.
               </p>
             </div>
 
             <div ref={buttonsRef} className="fade-in-on-scroll delay-600">
-              <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center w-full px-2 sm:px-0 box-border">
                 <button
                   onClick={scrollToContact}
-                  className="btn-luxury-primary"
+                  className="btn-luxury-primary hero-button w-full sm:w-auto max-w-full box-border"
                   aria-label="Réserver une consultation gratuite"
                 >
                   Consultation Gratuite
                 </button>
                 <button
                   onClick={scrollToServices}
-                  className="btn-luxury-secondary"
+                  className="btn-luxury-secondary hero-button w-full sm:w-auto max-w-full box-border"
                   aria-label="Découvrir nos services de bijouterie"
                 >
                   Nos Services

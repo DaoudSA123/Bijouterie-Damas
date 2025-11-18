@@ -100,7 +100,7 @@ const GalleryTabs = () => {
 
         <div className="flex justify-center mb-8">
           <div className="w-full" style={{ maxWidth: '900px' }}>
-            <div role="tablist" aria-label="Catégories de bijoux" className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4">
+            <div role="tablist" aria-label="Catégories de bijoux" className="flex flex-nowrap items-center justify-center gap-1 sm:gap-3 md:gap-4 w-full">
               {TABS.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (
@@ -109,7 +109,7 @@ const GalleryTabs = () => {
                     role="tab"
                     aria-selected={isActive}
                     onClick={() => setActiveTab(tab.key)}
-                    className={`${isActive ? 'btn-luxury-primary' : 'btn-secondary-enhanced'} px-5 py-2.5 text-[11px] sm:text-[12px] md:text-sm tracking-[0.1em] uppercase leading-none min-w-[120px] sm:min-w-[140px] md:min-w-[160px]`}
+                    className={`${isActive ? 'btn-luxury-primary' : 'btn-secondary-enhanced'} gallery-tab-button px-2 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-[12px] md:text-sm tracking-[0.05em] sm:tracking-[0.1em] uppercase leading-tight sm:leading-none sm:flex-none min-w-0 sm:min-w-[140px] md:min-w-[160px]`}
                   >
                     {tab.label}
                   </button>
@@ -201,10 +201,10 @@ const GalleryTabs = () => {
           onKeyDown={handleKeyDown}
           tabIndex={0}
         >
-          <div style={{
+          <div 
+            className="gallery-modal-container"
+            style={{
             position: 'relative',
-            maxWidth: '40%',
-            maxHeight: '50vh',
             backgroundColor: 'white',
             borderRadius: '8px',
             padding: '0',
@@ -313,10 +313,9 @@ const GalleryTabs = () => {
             <img
               src={selectedImage}
               alt="Bijou en grand format"
+              className="gallery-modal-image"
               style={{
                 display: 'block',
-                maxWidth: '100%',
-                maxHeight: '100%',
                 width: 'auto',
                 height: 'auto',
                 objectFit: 'contain',

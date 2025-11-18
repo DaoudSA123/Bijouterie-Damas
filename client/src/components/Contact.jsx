@@ -133,7 +133,7 @@ const Contact = () => {
                     <div>
                       <h4 className="text-lg font-medium text-white mb-2">Adresse</h4>
                       <p className="text-gray-300 leading-relaxed">
-                        181 Principale St<br />
+                        181 Rue Principale<br />
                         Gatineau, QC J9H 6A6
                       </p>
                     </div>
@@ -145,7 +145,11 @@ const Contact = () => {
                 <h4 className="text-xl font-medium text-white mb-6">Heures d'Ouverture</h4>
                 <div className="space-y-3 text-gray-300">
                   <div className="flex justify-between">
-                    <span className="font-medium">Lundi - Samedi</span>
+                    <span className="font-medium">Lundi - Vendredi</span>
+                    <span>10h30 - 17h00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Samedi</span>
                     <span>10h30 - 17h00</span>
                   </div>
                   <div className="flex justify-between">
