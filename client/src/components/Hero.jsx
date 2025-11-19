@@ -60,7 +60,9 @@ const Hero = () => {
           height: '100vh',
           minHeight: '100vh',
           objectFit: 'cover',
-          zIndex: 0
+          objectPosition: 'center center',
+          zIndex: 0,
+          overflow: 'hidden'
         }}
       >
         <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />
