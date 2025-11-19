@@ -63,9 +63,8 @@ const Header = () => {
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-10 px-2">
-            <div className="flex items-center space-x-2">
-              <img src="/logoDamas.png" alt="Bijouterie DAMAS" className="rounded-full" style={{ filter: 'brightness(0)' }} />
-           
+            <div className="flex items-center space-x-2 flex-shrink-0 min-w-0">
+              <img src="/logoDamas.png" alt="Bijouterie DAMAS" className="rounded-full flex-shrink-0" style={{ filter: 'brightness(0)' }} />
             </div>
             
             {/* Desktop Menu */}
