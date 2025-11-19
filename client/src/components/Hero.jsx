@@ -26,83 +26,185 @@ const Hero = () => {
       video.setAttribute('disablePictureInPicture', 'true');
       video.setAttribute('disableRemotePlayback', 'true');
       
+      // Force play immediately
+      const forcePlay = async () => {
+        try {
+          video.muted = true; // Ensure muted for autoplay
+          await video.play();
+        } catch (error) {
+          // If autoplay fails, try again after a short delay
+          setTimeout(() => {
+            video.play().catch(() => {
+              // Keep trying
+              const interval = setInterval(() => {
+                if (video.paused) {
+                  video.play().catch(() => {});
+                } else {
+                  clearInterval(interval);
+                }
+              }, 500);
+              // Stop trying after 10 seconds
+              setTimeout(() => clearInterval(interval), 10000);
+            });
+          }, 100);
+        }
+      };
+      
+      // Try to play on various events
+      const playEvents = ['loadstart', 'loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'];
+      playEvents.forEach(event => {
+        video.addEventListener(event, forcePlay, { once: true });
+      });
+      
+      // Initial play attempt
+      forcePlay();
+      
       // Aggressively hide controls via DOM manipulation
       const hideControls = () => {
-        // Hide all child elements
-        const controls = video.querySelectorAll('*');
-        controls.forEach(el => {
+        // Hide all child elements including buttons
+        const allElements = video.querySelectorAll('*');
+        allElements.forEach(el => {
           if (el.style) {
             el.style.display = 'none';
             el.style.visibility = 'hidden';
             el.style.opacity = '0';
             el.style.pointerEvents = 'none';
+            el.style.width = '0';
+            el.style.height = '0';
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            el.style.top = '-9999px';
+            el.style.zIndex = '-9999';
+            el.style.clip = 'rect(0, 0, 0, 0)';
+            el.style.clipPath = 'inset(100%)';
           }
+        });
+        
+        // Specifically target and hide any buttons
+        const buttons = video.querySelectorAll('button, [role="button"], .play-button, .pause-button');
+        buttons.forEach(btn => {
+          if (btn.style) {
+            btn.style.display = 'none';
+            btn.style.visibility = 'hidden';
+            btn.style.opacity = '0';
+            btn.style.pointerEvents = 'none';
+            btn.style.width = '0';
+            btn.style.height = '0';
+            btn.style.position = 'absolute';
+            btn.style.left = '-9999px';
+            btn.style.top = '-9999px';
+            btn.style.zIndex = '-9999';
+            btn.style.clip = 'rect(0, 0, 0, 0)';
+            btn.style.clipPath = 'inset(100%)';
+          }
+          btn.remove();
         });
         
         // Remove controls attribute repeatedly
         video.removeAttribute('controls');
         video.controls = false;
         
-        // Hide webkit controls
+        // Hide webkit controls with more comprehensive rules
+        const styleId = 'hero-video-controls-hide';
+        let existingStyle = document.getElementById(styleId);
+        if (existingStyle) {
+          existingStyle.remove();
+        }
+        
         const style = document.createElement('style');
+        style.id = styleId;
         style.textContent = `
-          video.hero-background-video::-webkit-media-controls {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-          }
-          video.hero-background-video::-webkit-media-controls-enclosure {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-          }
-          video.hero-background-video::-webkit-media-controls-panel {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-          }
-          video.hero-background-video::-webkit-media-controls-play-button {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-          }
-          video.hero-background-video::-webkit-media-controls-timeline {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-          }
-          video.hero-background-video::-webkit-media-controls-current-time-display {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-          }
+          video.hero-background-video::-webkit-media-controls,
+          video.hero-background-video::-webkit-media-controls-enclosure,
+          video.hero-background-video::-webkit-media-controls-panel,
+          video.hero-background-video::-webkit-media-controls-play-button,
+          video.hero-background-video::-webkit-media-controls-start-playback-button,
+          video.hero-background-video::-webkit-media-controls-timeline,
+          video.hero-background-video::-webkit-media-controls-current-time-display,
           video.hero-background-video::-webkit-media-controls-time-remaining-display {
             display: none !important;
             opacity: 0 !important;
             visibility: hidden !important;
+            pointer-events: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            clip: rect(0, 0, 0, 0) !important;
+            clip-path: inset(100%) !important;
+            z-index: -9999 !important;
+          }
+          video.hero-background-video button,
+          video.hero-background-video [role="button"],
+          .hero-background-video button,
+          .hero-background-video [role="button"],
+          .hero-video-wrapper button,
+          .hero-video-wrapper [role="button"] {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            clip: rect(0, 0, 0, 0) !important;
+            clip-path: inset(100%) !important;
+            z-index: -9999 !important;
           }
         `;
         document.head.appendChild(style);
       };
       
-      // Use MutationObserver to watch for controls being added
-      const observer = new MutationObserver(() => {
+      // Use MutationObserver to watch for controls being added - more aggressive
+      const observer = new MutationObserver((mutations) => {
         hideControls();
         video.removeAttribute('controls');
         video.controls = false;
+        
+        // Remove any buttons that might have been added
+        mutations.forEach(mutation => {
+          mutation.addedNodes.forEach(node => {
+            if (node.nodeType === 1) { // Element node
+              if (node.tagName === 'BUTTON' || node.getAttribute('role') === 'button' || 
+                  node.classList.contains('play-button') || node.classList.contains('pause-button')) {
+                node.remove();
+              }
+              // Also check children
+              const buttons = node.querySelectorAll && node.querySelectorAll('button, [role="button"]');
+              if (buttons) {
+                buttons.forEach(btn => btn.remove());
+              }
+            }
+          });
+        });
       });
       
       observer.observe(video, {
         attributes: true,
-        attributeFilter: ['controls'],
+        attributeFilter: ['controls', 'class'],
         childList: true,
-        subtree: true
+        subtree: true,
+        characterData: false
       });
+      
+      // Also observe the wrapper
+      const wrapper = video.parentElement;
+      if (wrapper) {
+        observer.observe(wrapper, {
+          childList: true,
+          subtree: true
+        });
+      }
+      
+      // Continuously check and hide controls
+      const controlCheckInterval = setInterval(() => {
+        hideControls();
+        video.removeAttribute('controls');
+        video.controls = false;
+      }, 100);
       
       // Prevent context menu on video
       const preventContextMenu = (e) => {
@@ -126,38 +228,55 @@ const Hero = () => {
       video.addEventListener('loadedmetadata', hideControls);
       video.addEventListener('canplay', hideControls);
       
-      // Ensure it keeps playing and looping
-      const ensurePlaying = () => {
-        if (video.paused) {
-          video.play().catch(() => {
-            // Ignore play errors
-          });
+      // Ensure it keeps playing and looping - more aggressive
+      const ensurePlaying = async () => {
+        if (video.paused || video.ended) {
+          try {
+            video.muted = true; // Always ensure muted
+            await video.play();
+          } catch (error) {
+            // Keep trying to play
+            setTimeout(() => {
+              video.play().catch(() => {});
+            }, 100);
+          }
         }
       };
+      
+      // Monitor and force play
+      const playMonitor = setInterval(() => {
+        if (video.paused && !video.ended) {
+          ensurePlaying();
+        }
+      }, 500);
       
       video.addEventListener('pause', ensurePlaying);
       video.addEventListener('ended', () => {
         video.currentTime = 0;
-        video.play();
+        ensurePlaying();
       });
+      video.addEventListener('waiting', ensurePlaying);
+      video.addEventListener('stalled', ensurePlaying);
       
-      // Initial play
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Auto-play was prevented, try again
-          setTimeout(() => video.play(), 100);
-        });
-      }
+      // Ensure video is always muted for autoplay
+      video.muted = true;
       
       // Cleanup
       return () => {
+        clearInterval(playMonitor);
+        clearInterval(controlCheckInterval);
+        if (observer) observer.disconnect();
         video.removeEventListener('contextmenu', preventContextMenu);
         video.removeEventListener('click', preventInteraction);
         video.removeEventListener('touchstart', preventInteraction);
         video.removeEventListener('touchend', preventInteraction);
         video.removeEventListener('pause', ensurePlaying);
         video.removeEventListener('ended', ensurePlaying);
+        video.removeEventListener('waiting', ensurePlaying);
+        video.removeEventListener('stalled', ensurePlaying);
+        playEvents.forEach(event => {
+          video.removeEventListener(event, forcePlay);
+        });
       };
     }
   }, []);
@@ -270,10 +389,20 @@ const Hero = () => {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            // If video is paused, try to play it (for autoplay policy)
+            if (videoRef.current && videoRef.current.paused) {
+              videoRef.current.muted = true;
+              videoRef.current.play().catch(() => {});
+            }
           }}
           onTouchStart={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            // If video is paused, try to play it (for autoplay policy)
+            if (videoRef.current && videoRef.current.paused) {
+              videoRef.current.muted = true;
+              videoRef.current.play().catch(() => {});
+            }
           }}
         />
       </div>
