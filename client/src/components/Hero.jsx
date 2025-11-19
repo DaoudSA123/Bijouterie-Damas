@@ -50,6 +50,9 @@ const Hero = () => {
         muted
         playsInline
         preload="auto"
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
         className="hero-background-video"
         style={{
           position: 'absolute',
@@ -62,7 +65,8 @@ const Hero = () => {
           objectFit: 'cover',
           objectPosition: 'center center',
           zIndex: 0,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          pointerEvents: 'none'
         }}
       >
         <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />

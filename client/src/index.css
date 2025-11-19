@@ -1280,6 +1280,31 @@ header img {
 
 .hero-background-video {
   display: none;
+  pointer-events: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Hide all video controls */
+.hero-background-video::-webkit-media-controls {
+  display: none !important;
+}
+
+.hero-background-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+.hero-background-video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.hero-background-video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+
+.hero-background-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 .hero-background-image {
