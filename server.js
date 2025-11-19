@@ -115,6 +115,16 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+// Fisher-Yates shuffle algorithm
+const shuffleArray = (array) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 // Gallery endpoint: lists images grouped by category folders located in client/public
 app.get('/api/gallery', async (req, res) => {
   try {
@@ -131,7 +141,8 @@ app.get('/api/gallery', async (req, res) => {
               entry.isFile() &&
               /\.(png|jpe?g|webp|gif|avifs?)$/i.test(entry.name)
           )
-          .map((entry) => `/${category}/${entry.name}`);
+          .map((entry) => `/${category}/${entry.name}`)
+          .sort();
         return imageFiles;
       } catch (err) {
         // If category folder missing, return empty list
@@ -140,7 +151,12 @@ app.get('/api/gallery', async (req, res) => {
     };
 
     const data = categories.reduce((acc, category) => {
-      acc[category] = readCategory(category);
+      let images = readCategory(category);
+      // Shuffle earrings, keep others sorted alphabetically
+      if (category === 'earrings') {
+        images = shuffleArray(images);
+      }
+      acc[category] = images;
       return acc;
     }, {});
 

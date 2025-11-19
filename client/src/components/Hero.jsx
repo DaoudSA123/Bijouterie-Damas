@@ -29,18 +29,63 @@ const Hero = () => {
   return (
     <section 
       id="accueil" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden section-white w-full"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden hero-section"
       style={{ 
-        backgroundImage: 'url(/background/backgroundHome.jpg)', 
-        backgroundSize: 'cover', 
-        backgroundPosition: 'center', 
-        backgroundRepeat: 'no-repeat',
-        imageRendering: 'high-quality',
-        WebkitImageRendering: 'high-quality'
+        backgroundColor: '#000000',
+        width: '100vw',
+        maxWidth: '100vw',
+        position: 'relative',
+        left: 0,
+        right: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        paddingLeft: 0,
+        paddingRight: 0
       }}
     >
+      {/* Video Background - Mobile Only */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="hero-background-video"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          minWidth: '100vw',
+          height: '100vh',
+          minHeight: '100vh',
+          objectFit: 'cover',
+          zIndex: 0
+        }}
+      >
+        <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />
+      </video>
+      
+      {/* Image Background - Desktop Only */}
+      <div 
+        className="hero-background-image"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          minWidth: '100vw',
+          height: '100%',
+          minHeight: '100vh',
+          backgroundImage: 'url(/background/backgroundHome.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: 0
+        }}
+      ></div>
       {/* Background Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40 z-10"></div>
+      <div className="hero-overlay absolute inset-0 bg-black/40 z-10"></div>
 
       {/* Enhanced Background Pattern */}
       <div className="absolute inset-0 opacity-5 z-20">
@@ -51,11 +96,11 @@ const Hero = () => {
         <div className="absolute bottom-1/3 left-1/3 w-24 h-24 border border-white/6 rounded-full animate-pulse delay-1500"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30 w-full">
+      <div className="hero-content-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-30 w-full">
         <div className={`transition-all duration-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
           <div className="bg-gold-light/20 backdrop-blur-sm border border-gold/30 rounded-3xl p-4 sm:p-8 md:p-12 lg:p-16 max-w-5xl mx-auto shadow-2xl w-full box-border">
             <div ref={titleRef} className="slide-in-top-on-scroll">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-black mb-4 sm:mb-6 leading-tight tracking-tight break-words">
+              <h1 className="hero-title-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-black mb-4 sm:mb-6 leading-tight tracking-tight break-words">
                 Bijouterie DAMAS
               </h1>
             </div>
@@ -65,10 +110,12 @@ const Hero = () => {
             </div>
             
             <div ref={descriptionRef} className="fade-in-on-scroll delay-400">
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gold-dark mb-6 sm:mb-8 leading-relaxed font-light max-w-3xl mx-auto break-words px-2 sm:px-0">
-                Création de bijoux sur mesure et objets uniques faits à la main
-              </p>
-              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto break-words px-2 sm:px-0">
+              <div className="hero-custom-jewelry-text-wrapper">
+                <p className="hero-subtitle-text">
+                  Création de bijoux sur mesure et objets uniques faits à la main
+                </p>
+              </div>
+              <p className="hero-description-text text-sm sm:text-base md:text-lg text-gray-600 mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto break-words px-2 sm:px-0">
                 Située à Gatineau, notre entreprise transforme votre vision en bijoux exceptionnels
                 depuis les années 1990. Chaque pièce raconte une histoire unique.
               </p>
