@@ -517,6 +517,39 @@ header img {
   flex-shrink: 0;
 }
 
+/* iPad portrait orientation fixes */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  header {
+    margin: 0 20px;
+    width: calc(100% - 40px);
+    padding: 0.4rem 0;
+  }
+  
+  header img {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+  
+  header nav {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  header nav > div {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    min-width: 0;
+    height: auto !important;
+  }
+  
+  header nav > div > div:first-child {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    flex-shrink: 1;
+  }
+}
+
 /* Landscape orientation fixes for mobile */
 @media (max-width: 1024px) and (orientation: landscape) {
   header {
