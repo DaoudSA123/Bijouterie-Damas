@@ -13,35 +13,86 @@ const Hero = () => {
     setIsVisible(true);
   }, []);
 
-  // Ensure video controls are disabled
+  // Ensure video controls are disabled and video keeps playing
   useEffect(() => {
     if (videoRef.current) {
       const video = videoRef.current;
+      
+      // Aggressively disable controls
       video.controls = false;
       video.removeAttribute('controls');
       video.setAttribute('controls', 'false');
+      video.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback');
+      video.setAttribute('disablePictureInPicture', 'true');
+      video.setAttribute('disableRemotePlayback', 'true');
+      
+      // Hide controls via DOM manipulation
+      const hideControls = () => {
+        const controls = video.querySelectorAll('*');
+        controls.forEach(el => {
+          if (el.style) {
+            el.style.display = 'none';
+            el.style.visibility = 'hidden';
+            el.style.opacity = '0';
+          }
+        });
+      };
       
       // Prevent context menu on video
-      video.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        return false;
-      });
-      
-      // Prevent any interaction
-      video.addEventListener('click', (e) => {
+      const preventContextMenu = (e) => {
         e.preventDefault();
         e.stopPropagation();
         return false;
+      };
+      
+      // Prevent any interaction
+      const preventInteraction = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      };
+      
+      video.addEventListener('contextmenu', preventContextMenu);
+      video.addEventListener('click', preventInteraction);
+      video.addEventListener('touchstart', preventInteraction);
+      video.addEventListener('touchend', preventInteraction);
+      video.addEventListener('loadstart', hideControls);
+      video.addEventListener('loadedmetadata', hideControls);
+      video.addEventListener('canplay', hideControls);
+      
+      // Ensure it keeps playing and looping
+      const ensurePlaying = () => {
+        if (video.paused) {
+          video.play().catch(() => {
+            // Ignore play errors
+          });
+        }
+      };
+      
+      video.addEventListener('pause', ensurePlaying);
+      video.addEventListener('ended', () => {
+        video.currentTime = 0;
+        video.play();
       });
       
-      // Ensure it keeps playing
+      // Initial play
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
           // Auto-play was prevented, try again
-          video.play();
+          setTimeout(() => video.play(), 100);
         });
       }
+      
+      // Cleanup
+      return () => {
+        video.removeEventListener('contextmenu', preventContextMenu);
+        video.removeEventListener('click', preventInteraction);
+        video.removeEventListener('touchstart', preventInteraction);
+        video.removeEventListener('touchend', preventInteraction);
+        video.removeEventListener('pause', ensurePlaying);
+        video.removeEventListener('ended', ensurePlaying);
+      };
     }
   }, []);
 
@@ -77,39 +128,67 @@ const Hero = () => {
       }}
     >
       {/* Video Background - Mobile Only */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        controls={false}
-        disablePictureInPicture
-        disableRemotePlayback
-        className="hero-background-video"
+      <div 
+        className="hero-video-wrapper"
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100vw',
-          minWidth: '100vw',
           height: '100vh',
-          minHeight: '100vh',
-          objectFit: 'cover',
-          objectPosition: 'center center',
           zIndex: 0,
           overflow: 'hidden',
           pointerEvents: 'none'
         }}
-        onContextMenu={(e) => e.preventDefault()}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
       >
-        <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />
-      </video>
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
+          className="hero-background-video"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            minWidth: '100vw',
+            height: '100vh',
+            minHeight: '100vh',
+            objectFit: 'cover',
+            objectPosition: 'center center',
+            zIndex: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            appearance: 'none'
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }}
+          onPlay={(e) => {
+            // Force play if paused
+            if (e.target.paused) {
+              e.target.play();
+            }
+          }}
+        >
+          <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />
+        </video>
+      </div>
       
       {/* Image Background - Desktop Only */}
       <div 

@@ -1278,12 +1278,26 @@ header img {
   right: 0 !important;
 }
 
+.hero-video-wrapper {
+  pointer-events: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  position: relative;
+  overflow: hidden;
+}
+
 .hero-background-video {
   display: none;
   pointer-events: none !important;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
   user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  outline: none !important;
+  border: none !important;
 }
 
 /* Hide all video controls - Comprehensive */
@@ -1346,10 +1360,40 @@ video.hero-background-video {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
+  outline: none !important;
+  border: none !important;
 }
 
 video.hero-background-video::--webkit-media-controls {
   display: none !important;
+}
+
+/* Hide all possible video control elements */
+.hero-background-video * {
+  pointer-events: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide video controls overlay */
+.hero-background-video::before,
+.hero-background-video::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Force hide any native controls */
+.hero-background-video[controls],
+.hero-background-video[controls="true"] {
+  controls: false !important;
+}
+
+/* Prevent any overlay controls */
+.hero-video-wrapper::before,
+.hero-video-wrapper::after {
+  display: none !important;
+  content: none !important;
 }
 
 .hero-background-image {
