@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
 const Contact = () => {
@@ -50,24 +51,63 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Access environment variables (injected by webpack DefinePlugin at build time)
+      // Webpack will replace these with actual string values
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_USER_ID;
 
-      const result = await response.json();
-      
-      if (result.success) {
+      console.log('EmailJS Config:', { serviceId, templateId, publicKey }); // Debug log
+
+      if (!serviceId || !templateId || !publicKey) {
+        console.error('Missing EmailJS configuration:', {
+          serviceId: serviceId || 'MISSING',
+          templateId: templateId || 'MISSING',
+          publicKey: publicKey || 'MISSING'
+        });
+        throw new Error('EmailJS configuration is missing. Please check your .env file and restart the server.');
+      }
+
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone || 'Non fourni',
+          message: formData.message,
+        },
+        publicKey
+      );
+
+      console.log('EmailJS Result:', result); // Debug log
+
+      // EmailJS v4 returns status 200 on success, or text === 'OK'
+      // Also check for result.status === 200 or result.text === 'OK'
+      if (result && (result.status === 200 || result.text === 'OK' || result.status === 'OK')) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', phone: '', message: '' });
       } else {
+        console.error('Unexpected EmailJS response:', result);
         setSubmitStatus('error');
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error sending email:', error);
+      console.error('Error details:', {
+        message: error.message,
+        text: error.text,
+        status: error.status,
+        response: error.response
+      });
+      
+      // More detailed error logging
+      if (error.text) {
+        console.error('EmailJS error text:', error.text);
+      }
+      if (error.status) {
+        console.error('EmailJS error status:', error.status);
+      }
+      
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

@@ -9,7 +9,7 @@ import GalleryTabs from './components/GalleryTabs.jsx';
 
 const App = () => {
   return (
-    <div className="App min-h-screen">
+    <div className="App min-h-screen" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
       <Header />
       <Hero />
       <GalleryTabs />
