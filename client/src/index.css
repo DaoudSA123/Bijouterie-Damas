@@ -1321,15 +1321,43 @@ header img {
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(100%) !important;
 }
 
-/* Hide controls on mobile specifically */
+/* Additional aggressive hiding for play button specifically */
+video.hero-background-video::before,
+video.hero-background-video::after,
+video.hero-background-video button,
+video.hero-background-video [role="button"],
+.hero-background-video button,
+.hero-background-video [role="button"],
+.hero-video-wrapper button,
+.hero-video-wrapper [role="button"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(100%) !important;
+  z-index: -9999 !important;
+}
+
+/* Hide controls on mobile specifically - EXTRA AGGRESSIVE */
 @media (max-width: 1024px) {
   video.hero-background-video::-webkit-media-controls,
   video.hero-background-video::-webkit-media-controls-enclosure,
   video.hero-background-video::-webkit-media-controls-panel,
   video.hero-background-video::-webkit-media-controls-play-button,
-  video.hero-background-video::-webkit-media-controls-timeline {
+  video.hero-background-video::-webkit-media-controls-start-playback-button,
+  video.hero-background-video::-webkit-media-controls-timeline,
+  video.hero-background-video::-webkit-media-controls-current-time-display,
+  video.hero-background-video::-webkit-media-controls-time-remaining-display {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -1340,6 +1368,29 @@ header img {
     left: -9999px !important;
     top: -9999px !important;
     z-index: -1 !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(100%) !important;
+  }
+  
+  /* Hide any button elements that might appear */
+  video.hero-background-video button,
+  video.hero-background-video [role="button"],
+  .hero-background-video button,
+  .hero-background-video [role="button"],
+  .hero-video-wrapper button,
+  .hero-video-wrapper [role="button"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(100%) !important;
+    z-index: -9999 !important;
   }
 }
 
