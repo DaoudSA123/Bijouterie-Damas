@@ -3,6 +3,7 @@ import useScrollAnimation from '../hooks/useScrollAnimation.js';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const videoRef = React.useRef(null);
   const titleRef = useScrollAnimation(0.2);
   const subtitleRef = useScrollAnimation(0.2);
   const descriptionRef = useScrollAnimation(0.2);
@@ -10,6 +11,38 @@ const Hero = () => {
 
   useEffect(() => {
     setIsVisible(true);
+  }, []);
+
+  // Ensure video controls are disabled
+  useEffect(() => {
+    if (videoRef.current) {
+      const video = videoRef.current;
+      video.controls = false;
+      video.removeAttribute('controls');
+      video.setAttribute('controls', 'false');
+      
+      // Prevent context menu on video
+      video.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        return false;
+      });
+      
+      // Prevent any interaction
+      video.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      });
+      
+      // Ensure it keeps playing
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Auto-play was prevented, try again
+          video.play();
+        });
+      }
+    }
   }, []);
 
   const scrollToContact = () => {
@@ -45,6 +78,7 @@ const Hero = () => {
     >
       {/* Video Background - Mobile Only */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
@@ -67,6 +101,11 @@ const Hero = () => {
           zIndex: 0,
           overflow: 'hidden',
           pointerEvents: 'none'
+        }}
+        onContextMenu={(e) => e.preventDefault()}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
         }}
       >
         <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />
@@ -92,6 +131,9 @@ const Hero = () => {
       ></div>
       {/* Background Overlay for better text readability */}
       <div className="hero-overlay absolute inset-0 bg-black/40 z-10"></div>
+      
+      {/* Additional dark overlay for video on mobile */}
+      <div className="hero-video-overlay absolute inset-0 bg-black/50 z-10"></div>
 
       {/* Enhanced Background Pattern */}
       <div className="absolute inset-0 opacity-5 z-20">
