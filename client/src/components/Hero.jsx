@@ -26,17 +26,83 @@ const Hero = () => {
       video.setAttribute('disablePictureInPicture', 'true');
       video.setAttribute('disableRemotePlayback', 'true');
       
-      // Hide controls via DOM manipulation
+      // Aggressively hide controls via DOM manipulation
       const hideControls = () => {
+        // Hide all child elements
         const controls = video.querySelectorAll('*');
         controls.forEach(el => {
           if (el.style) {
             el.style.display = 'none';
             el.style.visibility = 'hidden';
             el.style.opacity = '0';
+            el.style.pointerEvents = 'none';
           }
         });
+        
+        // Remove controls attribute repeatedly
+        video.removeAttribute('controls');
+        video.controls = false;
+        
+        // Hide webkit controls
+        const style = document.createElement('style');
+        style.textContent = `
+          video.hero-background-video::-webkit-media-controls {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+          }
+          video.hero-background-video::-webkit-media-controls-enclosure {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+          }
+          video.hero-background-video::-webkit-media-controls-panel {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+          }
+          video.hero-background-video::-webkit-media-controls-play-button {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+          }
+          video.hero-background-video::-webkit-media-controls-timeline {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+          }
+          video.hero-background-video::-webkit-media-controls-current-time-display {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+          video.hero-background-video::-webkit-media-controls-time-remaining-display {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
+        `;
+        document.head.appendChild(style);
       };
+      
+      // Use MutationObserver to watch for controls being added
+      const observer = new MutationObserver(() => {
+        hideControls();
+        video.removeAttribute('controls');
+        video.controls = false;
+      });
+      
+      observer.observe(video, {
+        attributes: true,
+        attributeFilter: ['controls'],
+        childList: true,
+        subtree: true
+      });
       
       // Prevent context menu on video
       const preventContextMenu = (e) => {
@@ -188,6 +254,28 @@ const Hero = () => {
         >
           <source src="/videos/veo30generatepreview_Luxury_jewelry_background_loop_featuring__0 (1).mp4" type="video/mp4" />
         </video>
+        {/* Blocking overlay to prevent any interaction with video */}
+        <div 
+          className="hero-video-blocker"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 1,
+            pointerEvents: 'auto',
+            backgroundColor: 'transparent'
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        />
       </div>
       
       {/* Image Background - Desktop Only */}
