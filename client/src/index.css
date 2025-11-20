@@ -1255,6 +1255,10 @@ header img {
   animation-delay: 0.3s;
 }
 
+.mobile-menu-item:nth-of-type(6) {
+  animation-delay: 0.35s;
+}
+
 @keyframes fadeInOverlay {
   from {
     opacity: 0;
