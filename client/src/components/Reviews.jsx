@@ -15,7 +15,7 @@ const Reviews = () => {
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="bg-black py-8 overflow-hidden">
+    <section id="avis" className="bg-black py-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden">
           <div className="reviews-scroll flex space-x-8">

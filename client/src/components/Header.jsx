@@ -94,6 +94,12 @@ const Header = () => {
                 Services
               </button>
               <button 
+                onClick={() => scrollToSection('avis')}
+                className="btn-nav-primary"
+              >
+                Avis
+              </button>
+              <button 
                 onClick={() => scrollToSection('contact')}
                 className="btn-nav-primary"
               >
@@ -175,6 +181,12 @@ const Header = () => {
                 className="mobile-menu-item"
               >
                 Services
+              </button>
+              <button 
+                onClick={() => scrollToSection('avis')}
+                className="mobile-menu-item"
+              >
+                Avis
               </button>
               <button 
                 onClick={() => scrollToSection('contact')}
