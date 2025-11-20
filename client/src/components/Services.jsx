@@ -38,13 +38,13 @@ const Services = () => {
     {
       id: 1,
       title: "Bagues de Mariage et de Fiançailles",
-      description: "Je débute toujours chaque création, y compris les bagues de mariage et de fiançailles, en puisant mon inspiration dans les designs classiques, même lorsque la pièce adopte une touche moderne ou abstraite. Cette approche assure à votre bijou une élégance intemporelle et une durabilité exceptionnelle. Pour une création personnalisée et entièrement faite à la main, contactez-nous dès aujourd'hui.",
+      description: "Nous débutons toujours chaque création, y compris les bagues de mariage et de fiançailles, en puisant notre inspiration dans les designs classiques, même lorsque la pièce adopte une touche moderne ou abstraite. Cette approche assure à votre bijou une élégance intemporelle et une durabilité exceptionnelle. Pour une création personnalisée et entièrement faite à la main, contactez-nous dès aujourd'hui.",
       image: "/ring.jpg"
     },
     {
       id: 2,
       title: "Colliers en Or",
-      description: "Ce collier en or présente un design élégant et intemporel, symbolisant la tranquillité et le raffinement. Grâce à ses lignes épurées et à sa finesse, il conservera tout son éclat au fil du temps. Contactez-moi pour le découvrir en boutique ou pour obtenir plus d'informations. Vous souhaitez créer votre propre collier en or, entièrement fait à la main et unique ? Réservez dès aujourd'hui votre consultation personnalisée.",
+      description: "Ce collier en or présente un design élégant et intemporel, symbolisant la tranquillité et le raffinement. Grâce à ses lignes épurées et à sa finesse, il conservera tout son éclat au fil du temps. Contactez-nous pour le découvrir en boutique ou pour obtenir plus d'informations. Vous souhaitez créer votre propre collier en or, entièrement fait à la main et unique ? Réservez dès aujourd'hui votre consultation personnalisée.",
       image: "/necklace.jpg"
     }
   ];
