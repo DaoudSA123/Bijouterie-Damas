@@ -8,27 +8,36 @@ const Reviews = () => {
     "Service merveilleux et personnes honnêtes. Ils ont fait des efforts pour nous éduquer sur les diamants et leur qualité. Un plaisir de faire affaire ici",
     "J'ai fait fabriquer une bague de fiançailles sur mesure par George. Le service était excellent, et George était formidable tout au long du processus ! Bonne communication, bon service pour un bon prix ! Merci encore, George, pour la belle bague ! ❤️ Si vous rêvez de quelque chose, n'importe quoi, George peut le faire 😍💪 a dépassé mes attentes !!",
     "Gens sympathiques, service rapide. Le meilleur endroit où je suis allé. Je n'ai jamais vu mes bijoux polis aussi bien et la qualité du travail pour réparer mes bijoux est la meilleure. Je reviendrai encore.",
-    "Nous fréquentons Bijouterie Damas depuis quelques années maintenant et nous sommes toujours chaleureusement accueillis et très satisfaits. Nos bijoux sont toujours magnifiques et le service n'est rien de moins qu'incroyable. Récemment, nous avons acheté nos alliances ici et ils m'ont aidé à trouver l'alliance parfaite pour accompagner ma bague de fiançailles."
+    "Nous fréquentons Bijouterie Damas depuis quelques années maintenant et nous sommes toujours chaleureusement accueillis et très satisfaits. Nos bijoux sont toujours magnifiques et le service n'est rien de moins qu'incroyable. Récemment, nous avons acheté nos alliances ici et ils m'ont aidé à trouver l'alliance parfaite pour accompagner ma bague de fiançailles.",
+    "Très belle réparation de joncs de mariage et nettoyage des bagues éclatants. Service très rapide et courtois. Merci!",
+    "Le service était rapide et efficace! Les employés sont sympathiques. Je suis très satisfaite du résultat pour ma montre.",
+    "J'ai fait faire un collier sertie de diamants et je suis vraiment étonné par sa beauté. Je suis extrêmement satisfaite. De plus le service a été AAA, le personnel a été vraiment gentil et avenant. Ils ont fait des extras que je ne m'attendais pas. Merci beaucoup et je recommande la bijouterie Damas de Aylmer.",
+    "Merci pour le service incroyable et la bague sur mesure. Elle a été fabriquée de qualité supérieure et exactement comme prévu. Merci d'avoir pris le temps de travailler sur le design et surtout pour les bons conseils en termes de matériau et de style.",
+    "Damas est l'une des meilleures bijouteries où j'ai jamais été. Le personnel est si amical et prendra le temps de répondre à toutes vos questions. Leur inventaire est incroyable, plein de nouveaux modèles et leurs prix sont très compétitifs. Fortement recommandé!",
+    "Service fantastique ! J'ai apporté ma bague pour la redimensionner et ils l'ont réparée, polie et nettoyée seulement quelques heures plus tard à un prix raisonnable.",
+    "Le meilleur service à la clientèle. Ils peuvent estimer votre chaîne gratuitement et ils ont des prix très compétitifs. Je recommande définitivement leurs services",
+    "Excellent service avec de très bons produits et prix. Je recommanderais à quiconque souhaite acheter ou réparer des bijoux !"
   ];
 
-  // Duplicate reviews for seamless loop
+  // Duplicate reviews for seamless infinite loop
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
     <section id="avis" className="bg-black py-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden reviews-container">
           <div className="reviews-scroll flex space-x-8">
             {duplicatedReviews.map((review, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-80 sm:w-96 bg-gold/10 backdrop-blur-sm border border-gold/20 rounded-lg p-4"
+                className="flex-shrink-0 w-80 sm:w-96 bg-gray-700 rounded-xl p-5 border border-gray-600 shadow-lg relative"
+                style={{ borderRight: '1px solid rgba(198, 166, 100, 0.5)' }}
               >
-                <div className="flex items-start space-x-2 mb-2">
+                <div className="flex items-center space-x-1 sm:space-x-2 mb-3">
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
-                      className="w-4 h-4 text-gold"
+                      className="w-5 h-5 sm:w-4 sm:h-4 text-gold flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -36,7 +45,7 @@ const Reviews = () => {
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-300 text-sm leading-snug line-clamp-5">
+                <p className="text-white text-sm leading-relaxed">
                   {review}
                 </p>
               </div>
