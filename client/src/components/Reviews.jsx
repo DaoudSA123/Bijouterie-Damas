@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const ReviewCard = ({ review, index }) => {
   return (
@@ -77,45 +77,10 @@ const Reviews = () => {
     "Excellent service avec de très bons produits et prix. Je recommanderais à quiconque souhaite acheter ou réparer des bijoux !"
   ];
 
-  const carouselRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   // Duplicate reviews multiple times for seamless infinite loop
   const duplicatedReviews = [...reviews, ...reviews, ...reviews, ...reviews];
-
-  // Detect mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Handle touch for mobile swipe
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-    if (carouselRef.current) {
-      const diff = touchStart - e.targetTouches[0].clientX;
-      carouselRef.current.scrollLeft = scrollPosition + diff;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (carouselRef.current) {
-      setScrollPosition(carouselRef.current.scrollLeft);
-    }
-  };
 
   return (
     <section id="avis" className="relative bg-black py-3 sm:py-4 overflow-hidden">
@@ -125,26 +90,16 @@ const Reviews = () => {
           className="overflow-hidden"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
         >
           <div 
-            ref={carouselRef}
-            className={`flex ${!isMobile ? 'animate-scroll gap-8' : 'gap-6'}`}
-            style={!isMobile ? {
+            className="flex animate-scroll gap-6 sm:gap-8"
+            style={{
               animation: isPaused ? 'scroll 80s linear infinite paused' : 'scroll 80s linear infinite',
               width: 'fit-content',
               willChange: 'transform'
-            } : {
-              overflowX: 'auto',
-              scrollBehavior: 'smooth',
-              WebkitOverflowScrolling: 'touch',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              paddingLeft: '0',
-              paddingRight: '0'
             }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
           >
             {duplicatedReviews.map((review, index) => (
               <ReviewCard key={index} review={review} index={index % reviews.length} />
@@ -152,13 +107,9 @@ const Reviews = () => {
           </div>
         </div>
         
-        {/* Subtle gradient fade edges - only on desktop */}
-        {!isMobile && (
-          <>
-            <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-10" />
-          </>
-        )}
+        {/* Subtle gradient fade edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-10" />
       </div>
       
       <style>{`
