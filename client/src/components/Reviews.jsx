@@ -1,4 +1,62 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
+const ReviewCard = ({ review, index }) => {
+  return (
+    <div className="group relative bg-gray-800/90 backdrop-blur-sm rounded-xl px-5 py-4 border border-gray-700/40 shadow-[0_2px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-700 ease-out flex flex-col flex-shrink-0 w-[320px] sm:w-[360px] md:w-[400px]">
+      {/* Satin effect overlay */}
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+      
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Header with Profile */}
+        <div className="flex items-center gap-3 mb-3">
+          {/* Incognito Icon */}
+          <div className="flex-shrink-0">
+            <div className="w-9 h-9 rounded-full flex items-center justify-center border border-gray-600/50 bg-gray-700/50">
+              <svg
+                className="w-5 h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                />
+              </svg>
+            </div>
+          </div>
+          
+          {/* Name and Rating */}
+          <div className="flex-grow min-w-0">
+            <h3 className="text-white font-medium text-sm mb-1 tracking-tight">
+              Client
+            </h3>
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <svg
+                  key={i}
+                  className="w-3 h-3 text-gold flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* Review Text */}
+        <p className="text-white text-xs sm:text-sm leading-relaxed font-light tracking-wide line-clamp-2">
+          {review}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const Reviews = () => {
   const reviews = [
@@ -19,51 +77,111 @@ const Reviews = () => {
     "Excellent service avec de très bons produits et prix. Je recommanderais à quiconque souhaite acheter ou réparer des bijoux !"
   ];
 
-  // Duplicate reviews for seamless infinite loop
-  const duplicatedReviews = [...reviews, ...reviews];
+  const carouselRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Duplicate reviews multiple times for seamless infinite loop
+  const duplicatedReviews = [...reviews, ...reviews, ...reviews, ...reviews];
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Handle touch for mobile swipe
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+    if (carouselRef.current) {
+      const diff = touchStart - e.targetTouches[0].clientX;
+      carouselRef.current.scrollLeft = scrollPosition + diff;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (carouselRef.current) {
+      setScrollPosition(carouselRef.current.scrollLeft);
+    }
+  };
 
   return (
-    <section id="avis" className="bg-black py-8 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden reviews-container">
-          <div className="reviews-scroll flex space-x-8">
+    <section id="avis" className="relative bg-black py-3 sm:py-4 overflow-hidden">
+      <div className="relative w-full">
+        {/* Scrolling container */}
+        <div 
+          className="overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div 
+            ref={carouselRef}
+            className={`flex ${!isMobile ? 'animate-scroll gap-8' : 'gap-6'}`}
+            style={!isMobile ? {
+              animation: isPaused ? 'scroll 80s linear infinite paused' : 'scroll 80s linear infinite',
+              width: 'fit-content',
+              willChange: 'transform'
+            } : {
+              overflowX: 'auto',
+              scrollBehavior: 'smooth',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              paddingLeft: '0',
+              paddingRight: '0'
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             {duplicatedReviews.map((review, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-80 sm:w-96 bg-gray-700 rounded-xl p-5 border border-gray-600 shadow-lg relative"
-                style={{ borderRight: '1px solid rgba(198, 166, 100, 0.5)' }}
-              >
-                <div className="flex items-center space-x-1 sm:space-x-2 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-5 h-5 sm:w-4 sm:h-4 text-gold flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-white text-sm leading-relaxed">
-                  {review}
-                </p>
-              </div>
+              <ReviewCard key={index} review={review} index={index % reviews.length} />
             ))}
           </div>
         </div>
         
-        <div className="text-center mt-6">
-          <a
-            href="https://www.google.com/search?sca_esv=f46f8e3b711902b9&biw=1699&bih=911&sxsrf=AE3TifP7ibgeA3DgYo0QFcJqDhi8BbnjrA:1763664397110&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E1Pa0C6qYF1Y3FZMCFrfB9YhR0jDcBcvHyRyhaDaY5MHeR_1grUwLUtG1W7DkIZaJYs5ild4Fx5ttEwDMZtnHz3AeoaN&q=Bijouterie+Damas+Avis&sa=X&ved=2ahUKEwjt_ZHvsYGRAxWe6ckDHc-hOUsQ0bkNegQIIRAE"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gold hover:text-gold/80 transition-colors duration-200 text-sm underline"
-          >
-            Voir tous les avis Google
-          </a>
-        </div>
+        {/* Subtle gradient fade edges - only on desktop */}
+        {!isMobile && (
+          <>
+            <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-black via-black/80 to-transparent pointer-events-none z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-black via-black/80 to-transparent pointer-events-none z-10" />
+          </>
+        )}
       </div>
+      
+      <style>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-25%);
+          }
+        }
+        
+        /* Hide scrollbar for mobile */
+        div[style*="overflowX"]::-webkit-scrollbar {
+          display: none;
+        }
+        
+        /* Ensure smooth animation */
+        .animate-scroll {
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+        }
+      `}</style>
     </section>
   );
 };
